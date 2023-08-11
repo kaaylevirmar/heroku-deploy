@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user');
+const serverless = require('serverless-http');
 
 // Router Imports
 const applicationRouter = require('./server/routes/applicationRouters');
@@ -90,6 +91,5 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', {err, activePage});
 })
 
-app.listen(5000, () => {
-    console.log("Server running in port 5000");
-})
+app.use('/.netlify/funtions/api',router);
+module.exports.handler =serverless(app);
